@@ -7,6 +7,7 @@ const xss = require('xss-clean');
 const hpp = require('hpp');
 const path = require('path');
 const cookieParser = require('cookie-parser');
+const compression = require('compression');
 
 const tourRouter = require('./routes/tourRoutes');
 const userRouter = require('./routes/userRoutes');
@@ -23,6 +24,9 @@ const app = express();
 // Template engine
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
+
+// Compress text file
+app.use(compression());
 
 // Serving static files
 app.use(express.static(path.join(__dirname, 'public')));
@@ -65,11 +69,6 @@ app.use(xss());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true, limit: '10kb' }));
 app.use(cookieParser());
-
-app.use((req, res, next) => {
-  console.log('Hello from the middleware 👋');
-  next();
-});
 
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();

@@ -59,7 +59,6 @@ if (updateDataBtn)
     form.append('name', $('#name').value);
     form.append('email', $('#email').value);
     form.append('photo', $('#photo').files[0]);
-    console.log(form);
 
     updateSettings(form, 'data');
   });
