@@ -4,7 +4,7 @@ import { login, logout } from './login';
 import { displayMap } from './mapbox';
 import { updateSettings } from './updateSettings';
 import { booktour } from './stripe';
-import { alert } from './alert';
+import { showAlert } from './alert';
 
 const $ = document.querySelector.bind(document);
 
