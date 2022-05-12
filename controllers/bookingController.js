@@ -19,16 +19,23 @@ exports.getCheckOutSession = catchAsync(async (req, res) => {
     cancel_url: `${req.protocol}://${req.get('host')}/tour/${tour.slug}`,
     customer_email: req.user.email,
     client_reference_id: req.params.tourId,
+    mode: 'payment',
     line_items: [
       {
-        name: `${tour.name} Tour`,
-        description: tour.summary,
-        images: [
-          `${req.protocol}://${req.get('host')}/img/tours/${tour.imageCover}`
-        ],
-        amount: tour.price * 100,
-        currency: 'usd',
-        quantity: 1
+        quantity: 1,
+        price_data: {
+          currency: 'usd',
+          unit_amount: tour.price * 100,
+          product_data: {
+            name: `${tour.name} Tour`,
+            description: tour.summary,
+            images: [
+              `${req.protocol}://${req.get('host')}/img/tours/${
+                tour.imageCover
+              }`
+            ]
+          }
+        }
       }
     ]
   });
@@ -52,7 +59,8 @@ const createBookingCheckout = async session => {
   const user = await User.findOne({ email: session.customer_email }).id;
   const tour = session.client_reference_id;
   const price = session.amount_total / 100;
-  await Booking.create({ user, tour, price });
+  const booking = await Booking.create({ user, tour, price });
+  console.log(booking);
 };
 
 exports.webhookCheckout = (req, res) => {
@@ -71,14 +79,14 @@ exports.webhookCheckout = (req, res) => {
     return;
   }
 
+  // Handle the event
   if (event.type === 'checkout.session.completed')
     createBookingCheckout(event.data.object);
 
-  // Handle the event
   console.log(`Unhandled event type ${event.type}`);
 
   // Return a 200 response to acknowledge receipt of the event
-  res.status(200).send({ received: true });
+  res.status(200).json({ received: true });
 };
 
 exports.getAllBookings = factory.getAll(Booking);
