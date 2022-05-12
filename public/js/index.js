@@ -4,6 +4,7 @@ import { login, logout } from './login';
 import { displayMap } from './mapbox';
 import { updateSettings } from './updateSettings';
 import { booktour } from './stripe';
+import { alert } from './alert';
 
 const $ = document.querySelector.bind(document);
 
@@ -16,6 +17,7 @@ const updatePasswordForm = $('.form-user-password');
 const userImgEl = $('.form__user-photo');
 const userImgInputEl = $('#photo');
 const bookBtn = $('#book-tour');
+const alertMessage = $('body').dataset.alert;
 
 const handleDisplayUserPhoto = e => {
   const imgFile = e.target.files?.[0];
@@ -84,3 +86,5 @@ if (bookBtn)
     e.target.innerHTML = 'Processing...';
     await booktour(tourId);
   });
+
+if (alertMessage) showAlert('success', alertMessage, 10);

@@ -9,7 +9,7 @@ html
             link(rel='shortcut icon' href='/img/favicon.png')
             - const tit = `Natours | ${title}`
             title= `${title === '' ? tit.split(' ')[0] : tit}`
-    body 
+    body(data-alert=`${alert ? alert : ''}`)
         // Header
         include _header
 
