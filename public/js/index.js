@@ -1,6 +1,6 @@
 /* eslint-disable */
 import '@babel/polyfill';
-import { login, logout } from './login';
+import { login, logout, signup } from './authenticator';
 import { displayMap } from './mapbox';
 import { updateSettings } from './updateSettings';
 import { booktour } from './stripe';
@@ -10,6 +10,7 @@ const $ = document.querySelector.bind(document);
 
 // DOM ELEMENTS
 const loginForm = $('.form--login');
+const signupForm = $('.form--signup');
 const map = $('#map');
 const logOutBtn = $('.nav__el--logout');
 const updateDataBtn = $('.btn--save--settings');
@@ -47,6 +48,16 @@ if (loginForm)
     const email = $('#email').value;
     const password = $('#password').value;
     login(email, password);
+  });
+
+if (signupForm)
+  signupForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const email = $('#email').value;
+    const name = $('#name').value;
+    const password = $('#password').value;
+    const passwordConfirm = $('#passwordConfirm').value;
+    signup({ email, password, passwordConfirm, name });
   });
 
 if (logOutBtn)

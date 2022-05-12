@@ -62,6 +62,12 @@ exports.login = (req, res) => {
   });
 };
 
+exports.signup = (req, res) => {
+  res.status(200).render('signup', {
+    title: 'Sign up to join Natours family'
+  });
+};
+
 exports.getAccount = (req, res) => {
   res.status(200).render('account', {
     title: res.locals.user.name

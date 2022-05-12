@@ -1,6 +1,7 @@
 /* eslint-disable */
 import axios from 'axios';
 import { showAlert } from './alert';
+
 export const login = async (email, password) => {
   try {
     const res = await axios({
@@ -14,6 +15,25 @@ export const login = async (email, password) => {
       window.setTimeout(() => {
         location.assign('/');
       }, 500);
+    }
+  } catch (err) {
+    showAlert('error', err.response.data.message);
+  }
+};
+
+export const signup = async data => {
+  try {
+    const res = await axios({
+      method: 'POST',
+      url: 'api/v1/users/signup',
+      data
+    });
+
+    if (res.data.status === 'success') {
+      showAlert('success', 'Welcome to natours family, feel free to travel');
+      window.setTimeout(() => {
+        location.assign('/');
+      }, 2000);
     }
   } catch (err) {
     showAlert('error', err.response.data.message);
