@@ -56,37 +56,6 @@ exports.resizeTourImages = catchAsync(async (req, res, next) => {
   next();
 });
 
-// exports.resizeTourImages = catchAsync(async (req, res, next) => {
-//   if (!req.files.imageCover || !req.files.images) return next();
-
-//   // 1) Image cover
-//   req.body.imageCover = `tour-${req.params.id}-${Date.now()}-cover.jpeg`;
-
-//   await sharp(req.files.imageCover[0].buffer)
-//     .resize(2000, 1333)
-//     .jpeg({ quality: 90 })
-//     .toFormat('jpeg')
-//     .toFile(`public/img/tours/${req.body.imageCover}`);
-
-//   // 2) Images
-//   req.body.images = [];
-
-//   await Promise.all(
-//     req.files.images.map(async (file, i) => {
-//       const filename = `tour-${req.params.id}-${Date.now()}-${i + 1}.jpeg`;
-
-//       await sharp(file.buffer)
-//         .resize(2000, 1333)
-//         .jpeg({ quality: 90 })
-//         .toFormat('jpeg')
-//         .toFile(`public/img/tours/${filename}`);
-//       req.body.images.push(filename);
-//     })
-//   );
-
-//   next();
-// });
-
 exports.aliasTopTours = (req, res, next) => {
   req.query.limit = '5';
   req.query.sort = '-ratingsAverage,price';
@@ -177,10 +146,6 @@ exports.getMonthlyPlan = catchAsync(async (req, res) => {
     }
   });
 });
-
-// /tours-within/:distance/center/:latlng/unit/:unit
-// /tours-within/distance=400&center=34.016611,-118.218728&unit=mi
-// /tours-within/400/center/34.016611,-118.218728/unit/mi
 
 exports.getToursWithin = catchAsync(async (req, res, next) => {
   const { distance, latlng, unit } = req.params;

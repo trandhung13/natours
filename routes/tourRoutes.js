@@ -6,11 +6,6 @@ const bookingRoutes = require('./bookingRoutes');
 
 const router = express.Router();
 
-// router.param('id', tourController.checkID);
-
-// POST /tour/:tourId/reviews
-// GET /tour/:tourId/reviews
-// GET /tour/:tourId/reviews/reviewId
 router.use('/:tourId/reviews', reviewRoutes);
 router.use('/:tourId/bookings', bookingRoutes);
 
